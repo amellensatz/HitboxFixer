@@ -1,5 +1,5 @@
 - Name: HitboxFixer
-  Version: 1.0.0
+  Version: 1.0.1
   DLL: bin/Debug/HitboxFixer.dll
   Dependencies:
     - Name: Everest

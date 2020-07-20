@@ -114,20 +114,25 @@ namespace HitboxFixer
             float YC = flipY * 2 * (y - cy) + 1;
             float XC = flipX * -2 * (x - cx) + 1;
             while (flipY * (y - cy) <= flipX * (x - cx)) {
-                DrawPoint((int)x + (flipX < 0 ? -1 : 0), (int)y + (flipY < 0 ? -1 : 0), interchangeXY, color);
+                // Slower than using DrawLine, but more obviously correct:
+                //DrawPoint((int)x + (flipX < 0 ? -1 : 0), (int)y + (flipY < 0 ? -1 : 0), interchangeXY, color);
                 E += YC;
                 y += flipY;
                 YC += 2;
                 if (E >= 0)
                 {
-                    //DrawLine((int)x + (flipX < 0 ? -1 : 0), (int)starty, (int)y, interchangeXY, color);
+                    // We would have a 1px correction for flipY here (as we do for flipX) except for
+                    // the fact that our lines always include the top pixel and exclude the bottom one.
+                    // Because of this we would have to make two corrections which cancel each other out,
+                    // so we just don't do either of them.
+                    DrawLine((int)x + (flipX < 0 ? -1 : 0), (int)starty, (int)y, interchangeXY, color);
                     starty = y;
                     E += XC;
                     x -= flipX;
                     XC += 2;
                 }
             }
-            //DrawLine((int)x + (flipX < 0 ? -1 : 0), (int)starty, (int)y, interchangeXY, color);
+            DrawLine((int)x + (flipX < 0 ? -1 : 0), (int)starty, (int)y, interchangeXY, color);
         }
 
         private void DrawLine(int x, int y0, int y1, bool interchangeXY, Color color)
